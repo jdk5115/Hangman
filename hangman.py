@@ -1,4 +1,4 @@
-''' Here is a little version of hangman using turtle.  Max letters is 8.'''
+''' Here is a little version of hangman using turtle. '''
 
 import tkinter as tk
 import turtle as t
@@ -6,6 +6,13 @@ global lsWord, word, strikes
 import time as time
 
 strikes = 0
+
+max_letters = 8
+
+letter_list = list()
+for i in range(max_letters):
+    letter_list.append('letter'+str(i))
+
 #draw dashes for every letter in word
 def dashes():
     global lsWord
@@ -14,7 +21,7 @@ def dashes():
     t.sety(-300)
     for i in range(len(lsWord)):
         t.pendown()
-        t.pensize(5) 
+        t.pensize(5)
         t.fd(50)
         t.penup()
         t.fd(30)
@@ -27,7 +34,7 @@ def gallows():
     t.setx(250)
     t.sety(-200)
     t.pendown()
-    t.pensize(5)   
+    t.pensize(5)
     t.lt(180)
     t.fd(100)
     t.lt(180)
@@ -98,7 +105,7 @@ def leftArm():
     t.sety(-25)
     t.pendown()
     t.down()
-    t.rt(150)    
+    t.rt(150)
     t.fd(50)
     t.penup()
     t.color('white')
@@ -111,7 +118,7 @@ def rightArm():
     t.sety(-25)
     t.pendown()
     t.down()
-    t.rt(120)    
+    t.rt(120)
     t.fd(50)
     t.penup()
 
@@ -136,88 +143,12 @@ def youWon():
     time.sleep(5)
     exit()
 
-#position of letters 0-8
-def letter0():
+#position of letters 0-n
+for i in letter_list:
+  def i():
     t.color('black')
     t.penup()
     t.setx(-350)
-    t.sety(-300)
-    t.pendown()
-    t.down()
-    t.color('blue')
-    t.write(guess, font=("Arial", 48, "normal"))
-    t.color('white')
-
-def letter1():
-    t.color('black')
-    t.penup()
-    t.setx(-270)
-    t.sety(-300)
-    t.pendown()
-    t.down()
-    t.color('blue')
-    t.write(guess, font=("Arial", 48, "normal"))
-    t.color('white')
-
-def letter2():
-    t.color('black')
-    t.penup()
-    t.setx(-190)
-    t.sety(-300)
-    t.pendown()
-    t.down()
-    t.color('blue')
-    t.write(guess, font=("Arial", 48, "normal"))
-    t.color('white')
-
-def letter3():
-    t.color('black')
-    t.penup()
-    t.setx(-110)
-    t.sety(-300)
-    t.pendown()
-    t.down()
-    t.color('blue')
-    t.write(guess, font=("Arial", 48, "normal"))
-    t.color('white')
-
-def letter4():
-    t.color('black')
-    t.penup()
-    t.setx(-30)
-    t.sety(-300)
-    t.pendown()
-    t.down()
-    t.color('blue')
-    t.write(guess, font=("Arial", 48, "normal"))
-    t.color('white')
-
-def letter5():
-    t.color('black')
-    t.penup()
-    t.setx(50)
-    t.sety(-300)
-    t.pendown()
-    t.down()
-    t.color('blue')
-    t.write(guess, font=("Arial", 48, "normal"))
-    t.color('white')
-
-def letter6():
-    t.color('black')
-    t.penup()
-    t.setx(130)
-    t.sety(-300)
-    t.pendown()
-    t.down()
-    t.color('blue')
-    t.write(guess, font=("Arial", 48, "normal"))
-    t.color('white')
-
-def letter7():
-    t.color('black')
-    t.penup()
-    t.setx(210)
     t.sety(-300)
     t.pendown()
     t.down()
@@ -243,17 +174,12 @@ def strikez():
         time.sleep(5)
         exit()
 
-
-
-function_dict = {'letter0':letter0, 'letter1':letter1, 'letter2':letter2, 'letter3':letter3, 'letter4':letter4, 'letter5':letter5, 
-                'letter6':letter6, 'letter7':letter7 }
-
 #Allow player 1 to pick a word and then check for spaces and numbers.Save word as list - lsWord
 while(True):
-    word = input('Player 1, please pick a word less than 8 characters long.').upper()
+    word = input('Player 1, please pick a word less than ' + str(max_letters) + ' characters long.').upper()
     if word.isalpha():
         if len(word) > 8:
-            print('Please pick a word only 8 characters long.')
+            print('Please pick a word only ' + str(max_letters) + ' characters long.')
         else:
             global lsWord
             lsWord = []
@@ -280,17 +206,16 @@ while(strikes < 6):
                 print('Got it! ' + guess + ' is in there. Keep going! \n')
                 for i in indices:
                     letterPosition = str('letter' + str(i))
-                    function_dict[letterPosition]()
                     winList.remove(guess)
                     if len(winList) == 0:
                         youWon()
-                        
+
             else:
                 print('\nMissed that one bud. Try again. \n')
                 strikes += 1
                 strikez()
                 time.sleep(1)
-    
+
 
     elif " " in guess:
         print('Please only use 1 letter.')
